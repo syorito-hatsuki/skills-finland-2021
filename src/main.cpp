@@ -32,8 +32,11 @@
 /*  Other's  */
 #define WATER_HEAT_ON_OFF 17
 
-void setup() {
-  
+void drumLight(bool x, bool y, bool z);
+
+void setup()
+{
+
   /*  Input's  */
   pinMode(F1_BTN, INPUT_PULLUP);
   pinMode(F2_BTN, INPUT_PULLUP);
@@ -57,6 +60,34 @@ void setup() {
   pinMode(OUTPUT_PIPE_LED, OUTPUT);
 }
 
-void loop() {
+void loop()
+{
+  if (!digitalRead(F1_BTN))
+    digitalWrite(INPUT_PIPE_LED, HIGH);
 
+  if (!digitalRead(F2_BTN))
+    digitalWrite(INPUT_PIPE_LED, LOW);
+
+  if (!digitalRead(F3_BTN))
+    digitalWrite(OUTPUT_PIPE_LED, HIGH);
+
+  if (!digitalRead(F4_BTN))
+    digitalWrite(OUTPUT_PIPE_LED, LOW);
+
+  if (!digitalRead(DOOR_LOCK_SWITCH))
+  {
+    digitalWrite(WASHING_DRUM_ON_OFF, HIGH);
+    drumLight(false, false, false);
+  }
+
+  if (digitalRead(DOOR_LOCK_SWITCH))
+    digitalWrite(WASHING_DRUM_ON_OFF, LOW);
+  
+}
+
+void drumLight(bool x, bool y, bool z)
+{
+  digitalWrite(WASHING_DRUM_POSITION_LSB, x);
+  digitalWrite(WASHING_DRUM_POSITION, y);
+  digitalWrite(WASHING_DRUM_POSITION_MSB, z);
 }
