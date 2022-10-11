@@ -92,4 +92,10 @@ void loop()
     digitalWrite(OUTPUT_PIPE, LOW);
     digitalWrite(OUTPUT_PIPE_LED, LOW);
   }
+
+  if (analogRead(WATER_LEVEL_MEASURE) >= 700)
+    digitalWrite(WATER_LEVEL_LED, HIGH);
+
+  if (analogRead(WATER_LEVEL_MEASURE) <= 200)
+    digitalWrite(WATER_LEVEL_LED, LOW);
 }
