@@ -32,10 +32,13 @@
 /*  Other's  */
 #define WATER_HEAT_ON_OFF 17
 
-void drumLight(bool x, bool y, bool z);
+int period = 500;
+unsigned long timeNow = 0;
 
 void setup()
 {
+
+  Serial.begin(9600);
 
   /*  Input's  */
   pinMode(F1_BTN, INPUT_PULLUP);
@@ -62,32 +65,31 @@ void setup()
 
 void loop()
 {
-  if (!digitalRead(F1_BTN))
-    digitalWrite(INPUT_PIPE_LED, HIGH);
-
-  if (!digitalRead(F2_BTN))
-    digitalWrite(INPUT_PIPE_LED, LOW);
-
-  if (!digitalRead(F3_BTN))
-    digitalWrite(OUTPUT_PIPE_LED, HIGH);
-
-  if (!digitalRead(F4_BTN))
-    digitalWrite(OUTPUT_PIPE_LED, LOW);
-
-  if (!digitalRead(DOOR_LOCK_SWITCH))
+  if (millis() >= timeNow + period)
   {
-    digitalWrite(WASHING_DRUM_ON_OFF, HIGH);
-    drumLight(false, false, false);
+    timeNow += period;
+    Serial.println(analogRead(WATER_LEVEL_MEASURE));
   }
 
-  if (digitalRead(DOOR_LOCK_SWITCH))
-    digitalWrite(WASHING_DRUM_ON_OFF, LOW);
-  
-}
+  if (!digitalRead(F1_BTN))
+  {
+    digitalWrite(INPUT_PIPE, HIGH);
+    digitalWrite(INPUT_PIPE_LED, HIGH);
+  }
+  else
+  {
+    digitalWrite(INPUT_PIPE, LOW);
+    digitalWrite(INPUT_PIPE_LED, LOW);
+  }
 
-void drumLight(bool x, bool y, bool z)
-{
-  digitalWrite(WASHING_DRUM_POSITION_LSB, x);
-  digitalWrite(WASHING_DRUM_POSITION, y);
-  digitalWrite(WASHING_DRUM_POSITION_MSB, z);
+  if (!digitalRead(F2_BTN))
+  {
+    digitalWrite(OUTPUT_PIPE, HIGH);
+    digitalWrite(OUTPUT_PIPE_LED, HIGH);
+  }
+  else
+  {
+    digitalWrite(OUTPUT_PIPE, LOW);
+    digitalWrite(OUTPUT_PIPE_LED, LOW);
+  }
 }
