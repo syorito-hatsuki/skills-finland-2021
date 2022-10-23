@@ -68,7 +68,10 @@ void loop()
   if (millis() >= timeNow + period)
   {
     timeNow += period;
-    Serial.println(analogRead(WATER_LEVEL_MEASURE));
+    Serial.print(analogRead(WATER_LEVEL_MEASURE));
+    Serial.print(",");
+    Serial.print(analogRead(WATER_HEAT_MEASURE));
+    Serial.println("");
   }
 
   if (!digitalRead(F1_BTN))
@@ -92,6 +95,16 @@ void loop()
     digitalWrite(OUTPUT_PIPE, LOW);
     digitalWrite(OUTPUT_PIPE_LED, LOW);
   }
+
+  if (!digitalRead(F3_BTN))
+  {
+    digitalWrite(WATER_HEAT_ON_OFF, HIGH);
+    digitalWrite(WATER_HEAT_LED, HIGH);
+  } else {
+    digitalWrite(WATER_HEAT_ON_OFF, LOW);
+    digitalWrite(WATER_HEAT_LED, LOW);
+  }
+  
 
   if (analogRead(WATER_LEVEL_MEASURE) >= 700)
     digitalWrite(WATER_LEVEL_LED, HIGH);
